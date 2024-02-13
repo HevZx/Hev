@@ -622,11 +622,9 @@ def change_audio_mode(vc_audio_mode):
         
 with gr.Blocks(theme=gr.themes.Soft(), title="Hev-RVC-Web 💻") as app:
     gr.HTML("<h1> The Hev-RVC-Fork 💻 </h1>")
-    
-    
-    with gr.TabItem("Inference"):
-        
-           sid = gr.Dropdown(
+    )
+    with gr.Row():
+        sid = gr.Dropdown(
             label="Weight",
             choices=sorted(weights_model),
         )
@@ -643,7 +641,8 @@ with gr.Blocks(theme=gr.themes.Soft(), title="Hev-RVC-Web 💻") as app:
             value=0,
             visible=False,
             interactive=True,
-        )
+        )   
+    with gr.TabItem("Inference"):
         refresh_model = gr.Button("Refresh model list", variant="primary")
         clean_button = gr.Button("Clear Model from memory", variant="primary")
         refresh_model.click(
