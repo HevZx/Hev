@@ -281,7 +281,7 @@ def get_vc(sid, to_return_protect0):
         selected_index,
         gr.Markdown.update(
             f'## <center> {selected_model}\n'+
-            f'### <center> RVC {version} Model'
+            f'### <center> Models  RVC {version}'
         )
     )
 
@@ -620,12 +620,13 @@ def change_audio_mode(vc_audio_mode):
             gr.Dropdown.update(visible=True)
         )
         
-with gr.Blocks() as app:
-    gr.Markdown(
-        "# <center> Advanced RVC Inference\n"
-    )
-    with gr.Row():
-        sid = gr.Dropdown(
+with gr.Blocks(theme=gr.themes.Soft(), title="Hev-RVC-Web 💻") as app:
+    gr.HTML("<h1> The Hev-RVC-Fork 💻 </h1>")
+    
+    
+    with gr.TabItem("Inference"):
+        
+           sid = gr.Dropdown(
             label="Weight",
             choices=sorted(weights_model),
         )
@@ -649,7 +650,7 @@ with gr.Blocks() as app:
             fn=check_models, inputs=[], outputs=[sid, file_index]
         )
         clean_button.click(fn=clean, inputs=[], outputs=[sid, spk_item])
-    with gr.TabItem("Inference"):
+        )
         selected_model = gr.Markdown(value="# <center> No model selected")
         with gr.Row():
             with gr.Column():
@@ -920,9 +921,8 @@ with gr.Blocks() as app:
         )
     with gr.TabItem("Model Downloader"):
         gr.Markdown(
-            "# <center> Model Downloader (Beta)\n"+
             "#### <center> To download multi link you have to put your link to the textbox and every link separated by space\n"+
-            "#### <center> Support Direct Link, Mega, Google Drive, etc"
+            "#### <center> Support Direct Link, Mega, Google Drive, huggingface, etc"
         )
         with gr.Column():
             md_text = gr.Textbox(label="URL")
@@ -934,9 +934,5 @@ with gr.Blocks() as app:
                 inputs=[md_text],
                 outputs=[md_download_logs]
             )
-    with gr.TabItem("Settings"):
-        gr.Markdown(
-            "# <center> Settings\n"+
-            "#### <center> Work in progress"
-        )
+            
     app.queue(concurrency_count=1, max_size=50, api_open=config.api).launch(share=config.colab)
