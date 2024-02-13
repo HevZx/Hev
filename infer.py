@@ -618,10 +618,14 @@ def change_audio_mode(vc_audio_mode):
             # TTS
             gr.Textbox.update(visible=True),
             gr.Dropdown.update(visible=True)
-        )        
+        )
+
+
 with gr.Blocks(theme=gr.themes.Soft(), title="Hev-RVC-Web 💻") as app:
+
+    
     gr.HTML("<h1> The Hev-RVC-Fork 💻 </h1>")
-    )
+
     with gr.Row():
         sid = gr.Dropdown(
             label="Weight",
