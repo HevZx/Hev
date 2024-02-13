@@ -619,13 +619,11 @@ def change_audio_mode(vc_audio_mode):
             gr.Textbox.update(visible=True),
             gr.Dropdown.update(visible=True)
         )
-
-
-with gr.Blocks(theme=gr.themes.Soft(), title="Hev-RVC-Web 💻") as app:
-
-    
-    gr.HTML("<h1> The Hev-RVC-Fork 💻 </h1>")
-
+        
+with gr.Blocks(theme='Hev832/Hev') as app:
+    gr.Markdown(
+        "# <center> Advanced RVC Inference\n"
+        )
     with gr.Row():
         sid = gr.Dropdown(
             label="Weight",
