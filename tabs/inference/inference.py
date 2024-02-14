@@ -281,7 +281,7 @@ def get_vc(sid, to_return_protect0):
         selected_index,
         gr.Markdown.update(
             f'## <center> {selected_model}\n'+
-            f'### <center> Models  RVC {version}'
+            f'### <center>  RVC {version} models'
         )
     )
 
@@ -620,11 +620,9 @@ def change_audio_mode(vc_audio_mode):
             gr.Dropdown.update(visible=True)
         )
         
-with gr.Blocks(theme='Hev832/Hev') as app:
-    gr.Markdown(
-        "# <center> Advanced RVC Inference\n"
-        )
-    with gr.Row():
+def inference():
+    with gr.Column():
+        gr.Markdown(value=i18n("## inferenec"))
         sid = gr.Dropdown(
             label="Weight",
             choices=sorted(weights_model),
@@ -643,7 +641,7 @@ with gr.Blocks(theme='Hev832/Hev') as app:
             visible=False,
             interactive=True,
         )   
-    with gr.TabItem("Inference"):
+        gr.Markdown(value=i18n("## inference"))
         refresh_model = gr.Button("Refresh model list", variant="primary")
         clean_button = gr.Button("Clear Model from memory", variant="primary")
         refresh_model.click(
@@ -839,100 +837,4 @@ with gr.Blocks(theme='Hev832/Hev') as app:
             ]
         )
         sid.change(fn=get_vc, inputs=[sid, protect0], outputs=[spk_item, protect0, file_index, selected_model])
-    with gr.TabItem("Batch Inference"):
-        with gr.Row():
-            with gr.Column():
-                vc_input_bat = gr.Textbox(label="Input audio path (folder)", visible=True)
-                vc_output_bat = gr.Textbox(label="Output audio path (folder)", value="result/batch", visible=True)
-            with gr.Column():
-                vc_transform0_bat = gr.Number(
-                    label="Transpose", 
-                    info='Type "12" to change from male to female convertion or Type "-12" to change female to male convertion.',
-                    value=0
-                )
-                f0method0_bat = gr.Radio(
-                    label="Pitch extraction algorithm",
-                    info=f0method_info,
-                    choices=f0method_mode,
-                    value="pm",
-                    interactive=True,
-                )
-                index_rate0_bat = gr.Slider(
-                    minimum=0,
-                    maximum=1,
-                    label="Retrieval feature ratio",
-                    value=0.7,
-                    interactive=True,
-                )
-                filter_radius0_bat = gr.Slider(
-                    minimum=0,
-                    maximum=7,
-                    label="Apply Median Filtering",
-                    info="The value represents the filter radius and can reduce breathiness.",
-                    value=3,
-                    step=1,
-                    interactive=True,
-                )
-                resample_sr0_bat = gr.Slider(
-                    minimum=0,
-                    maximum=48000,
-                    label="Resample the output audio",
-                    info="Resample the output audio in post-processing to the final sample rate. Set to 0 for no resampling",
-                    value=0,
-                    step=1,
-                    interactive=True,
-                )
-                rms_mix_rate0_bat = gr.Slider(
-                    minimum=0,
-                    maximum=1,
-                    label="Volume Envelope",
-                    info="Use the volume envelope of the input to replace or mix with the volume envelope of the output. The closer the ratio is to 1, the more the output envelope is used",
-                    value=1,
-                    interactive=True,
-                )
-                protect0_bat = gr.Slider(
-                    minimum=0,
-                    maximum=0.5,
-                    label="Voice Protection",
-                    info="Protect voiceless consonants and breath sounds to prevent artifacts such as tearing in electronic music. Set to 0.5 to disable. Decrease the value to increase protection, but it may reduce indexing accuracy",
-                    value=0.5,
-                    step=0.01,
-                    interactive=True,
-                )
-            with gr.Column():
-                vc_log_bat = gr.Textbox(label="Output Information", interactive=False)
-                vc_convert_bat = gr.Button("Convert", variant="primary")
-        vc_convert_bat.click(
-            vc_multi,
-            [
-                spk_item,
-                vc_input_bat,
-                vc_output_bat,
-                vc_transform0_bat,
-                f0method0_bat,
-                file_index,
-                index_rate0_bat,
-                filter_radius0_bat,
-                resample_sr0_bat,
-                rms_mix_rate0_bat,
-                protect0_bat,
-            ],
-            [vc_log_bat],
-        )
-    with gr.TabItem("Model Downloader"):
-        gr.Markdown(
-            "#### <center> To download multi link you have to put your link to the textbox and every link separated by space\n"+
-            "#### <center> Support Direct Link, Mega, Google Drive, huggingface, etc"
-        )
-        with gr.Column():
-            md_text = gr.Textbox(label="URL")
-        with gr.Row():
-            md_download = gr.Button(label="Convert", variant="primary")
-            md_download_logs = gr.Textbox(label="Output information", interactive=False)
-            md_download.click(
-                fn=download_and_extract_models,
-                inputs=[md_text],
-                outputs=[md_download_logs]
-            )
-            
-    app.queue(concurrency_count=1, max_size=50, api_open=config.api).launch(share=config.colab)
+    
