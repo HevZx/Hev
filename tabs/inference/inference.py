@@ -620,7 +620,7 @@ def change_audio_mode(vc_audio_mode):
             gr.Dropdown.update(visible=True)
         )
         
-def inference():
+def inference_tab():
     with gr.Column():
         gr.Markdown(value=i18n("## inferenec"))
         sid = gr.Dropdown(
@@ -837,4 +837,4 @@ def inference():
             ]
         )
         sid.change(fn=get_vc, inputs=[sid, protect0], outputs=[spk_item, protect0, file_index, selected_model])
-    
+      )
